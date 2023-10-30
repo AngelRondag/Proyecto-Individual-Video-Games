@@ -7,12 +7,11 @@ const url = `https://api.rawg.io/api/genres?key=${API_KEY}`
 
 
 const getAllGenres = async (req, res) => {
-
     try {
         const count = await Genre.count();
         if (count === 0) {
-            saveGenresToDB(url);
-            return res.status(201).json({ message: "The data was saved successfully" })
+            const allGenres = await saveGenresToDB(url);
+            return res.status(201).json(allGenres)
         } else {
             const allGenres = await Genre.findAll();
             return res.status(200).json(allGenres);

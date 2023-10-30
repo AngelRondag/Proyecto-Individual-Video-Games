@@ -24,8 +24,17 @@ const getVideogameById = async (req, res) => {
             const url = `https://api.rawg.io/api/games/${id}?key=${API_KEY}`;
             const response = await axios.get(url);
             const videogameFoundAPI = response.data
-            if (videogameFoundAPI) {
-                return res.status(200).json(videogameFoundAPI);
+            if (videogameFoundAPI.id) {
+                const { id, name, background_image, released, rating, description_raw, genres } = videogameFoundAPI
+                return res.status(200).json({
+                    id,
+                    name,
+                    released,
+                    genres,
+                    rating,
+                    image: background_image,
+                    descriptions: description_raw,
+                });
             } else {
                 throw new Error("Video game not found")
             }
